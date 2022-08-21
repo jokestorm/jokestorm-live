@@ -4,9 +4,6 @@ const mongoose = require('mongoose')
 const Member = require('./models/member')
 
 mongoose.connect('mongodb://localhost:27017/jokestorm-live-dev', {
-    useNewUrlParser: true,
-    // useCreateIndex: true,
-    useUnifiedTopology: true
 });
 
 const db = mongoose.connection;
@@ -24,12 +21,16 @@ app.get('/', (req, res) => {
     res.render('index')
 });
 
-app.get('/discord', async (req,res) => {
-    const member = new Member({handle: "Jokestorm", email: "test@test.com"})
+app.get('/discord', async (req, res) => {
+    const member = new Member({ handle: "Jokestorm", email: "test@test.com" })
     await member.save();
     res.send(member)
 })
 
+app.get('/members', async (req, res) => {
+    const members = await Member.find({});
+    res.render('members/index', { members })
+})
 app.listen(3000, () => {
     console.log('listening')
 });
