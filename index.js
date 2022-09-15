@@ -41,6 +41,6 @@ app.get('/members/:id', async (req, res) => {
     res.render('members/show', { member })
 })
 
-app.listen(3000, () => {
+app.listen(80, () => {
     console.log('listening')
 });
