@@ -17,6 +17,7 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(express.urlencoded({extended:true}))
 app.get('/', (req, res) => {
     res.render('index')
 });
@@ -34,6 +35,14 @@ app.get('/members', async (req, res) => {
 
 app.get('/members/new', (req, res) => {
     res.render('members/new');
+})
+
+app.get('/idle', (req, res) => {
+    res.render('idle/idle');
+})
+
+app.post('/members', async (req, res) => {
+    res.send(req.body)
 })
 
 app.get('/members/:id', async (req, res) => {
