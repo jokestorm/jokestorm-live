@@ -17,7 +17,7 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
     res.render('index')
@@ -53,6 +53,10 @@ app.get('/members/:id', async (req, res) => {
     res.render('members/show', { member })
 })
 
+app.get('/members/:id/edit', async (req, res) => {
+    const member = await Member.findById(req.params.id);
+    res.render('members/edit', { member })
+})
 app.listen(80, () => {
     console.log('listening')
 });
