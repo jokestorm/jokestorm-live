@@ -10,14 +10,15 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
     console.log('Database connected');
-})
+});
 
 const app = express();
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(express.urlencoded({extended:true}))
+app.use(express.urlencoded({extended:true}));
+
 app.get('/', (req, res) => {
     res.render('index')
 });
@@ -42,7 +43,9 @@ app.get('/idle', (req, res) => {
 })
 
 app.post('/members', async (req, res) => {
-    res.send(req.body)
+    const member = new Member(req.body.member);
+    await member.save();
+    res.redirect(`/members/${member._id}`);
 })
 
 app.get('/members/:id', async (req, res) => {
