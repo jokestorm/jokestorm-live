@@ -72,6 +72,9 @@ app.delete('/members/:id', async (req, res) => {
     res.redirect('/members')
 });
 
+app.use((req,res) => {
+    res.send(`404: Didn't find anything at ${req.path} from ${req.ip}`)
+})
 app.listen(80, () => {
     console.log('listening')
 });
