@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <!-- <meta http-equiv="refresh" content="5"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Garth Cline">
+    <meta name="description" content="Basically my first website">
+    <title>Jokestorm.live</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="icon" href="img/J.png">
+</head>
+
+<style>
+    body {
+        min-height: 75rem;
+        padding-top: 4.5rem;
+    }
+</style>
+
+<body class="bg-secondary">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Jokestorm.live</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <!-- <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="streamdropdown" data-toggle="dropdown" role="button"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Stream Info</a>
+            <div class="dropdown-menu" aria-labelledby="streamdropdown">
+              <a class="dropdown-item" href="streaminfo.html">Stream Info</a>
+              <a class="dropdown-item" href="twitchbot.html">Twitch Bot</a>
+            </div>
+          </li> -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/members">Cool People</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/members/new">New Member</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/idle">Idle</a>
+                    </li>
+                    <!-- <li class="nav-item">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Coming Soon</a>
+          </li> -->
+                </ul>
+                <!-- <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form> -->
+            </div>
+        </div>
+    </nav>
+    <%- body %> 
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
