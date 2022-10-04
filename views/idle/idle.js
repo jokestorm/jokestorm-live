@@ -23,7 +23,7 @@ const thingMakerButton = document.getElementById('btn-thing-maker')
 const stuffMakerButton = document.getElementById('btn-stuff-maker')
 const row1 = document.getElementById('row1')
 const row2 = document.getElementById('row2')
-const shopButton = document.getElementById('shop')
+// const shopButton = document.getElementById('shop')
 const boostText = document.getElementById('boost-text')
 
 let tickValue1 = 1
@@ -32,11 +32,11 @@ let auto1Count = 0
 let auto2Count = 0
 let boost = 1
 
-shopButton.addEventListener('click', async () => {
-    boost++
-    boostText.classList.remove('invisible')
-    boostText.childNodes[1].childNodes[1].innerText = boost
-})
+// shopButton.addEventListener('click', async () => {
+//     boost++
+//     boostText.classList.remove('invisible')
+//     boostText.childNodes[1].childNodes[1].innerText = boost
+// })
 
 thingMakerButton.addEventListener('click', async () => {
     row1.classList.remove('invisible')

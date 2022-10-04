@@ -71,12 +71,28 @@ app.put('/members/:id', async (req, res) => {
 app.delete('/members/:id', async (req, res) => {
     const { id } = req.params;
     await Member.findByIdAndDelete(id);
-    res.redirect('/members')
+    res.redirect('/members');
+});
+
+app.get('/idle.js', async (req,res) => {
+    res.sendFile('views/idle/idle.js',{root: __dirname});
+});
+
+app.get('/Orange-Cat.png', async (req,res) => {
+    res.sendFile('views/idle/Orange-Cat.png',{root: __dirname});
+});
+
+app.get('/Discord-Logo-White.svg', async (req,res) => {
+    res.sendFile('views/idle/Discord-Logo-White.svg',{root: __dirname});
+});
+
+app.get('/J.png', async (req,res) => {
+    res.sendFile('views/J.png',{root: __dirname});
 });
 
 app.use((req,res) => {
-    res.send(`404: Didn't find anything at ${req.path} from ${req.ip}`)
+    res.send(`404: Didn't find anything at ${req.path} from ${req.ip}`);
 })
 app.listen(80, () => {
-    console.log('listening')
+    console.log('listening');
 });
