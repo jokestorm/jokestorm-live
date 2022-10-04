@@ -78,6 +78,10 @@ app.get('/idle.js', async (req,res) => {
     res.sendFile('views/idle/idle.js',{root: __dirname});
 });
 
+app.get('/idle.css', async (req,res) => {
+    res.sendFile('views/idle/idle.css',{root: __dirname});
+});
+
 app.get('/Orange-Cat.png', async (req,res) => {
     res.sendFile('views/idle/Orange-Cat.png',{root: __dirname});
 });
