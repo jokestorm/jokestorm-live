@@ -1,14 +1,22 @@
 <% layout('/layouts/boilerplate') %>
-    <h1>Edit Member</h1>
-    <form action="/members/<%= member._id %>?_method=PUT" method="post">
-        <div>
-            <label for="handle">Username</label>
-            <input type="text" name="member[handle]" id="handle" placeholder="Username" value="<%= member.handle %>">
+    <div class="row">
+        <h1 class="text-center">Edit Memeber</h1>
+        <div class="col-6 offset-3">
+            <form action="/members/<%= member._id %>?_method=PUT" method="post">
+                <div class="mb-3">
+                    <!-- <label for="handle">Username</label> -->
+                    <input type="text" class="form-control" name="member[handle]" id="handle" placeholder="Username"
+                        value="<%= member.handle %>">
+                </div>
+                <div class="mb-3">
+                    <!-- <label for="email">Email</label> -->
+                    <input type="text" class="form-control" name="member[email]" id="email" placeholder="Email"
+                        value="<%= member.email %>">
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-info">Save Changes</button>
+                </div>
+            </form>
+            <a class= "btn btn-danger" href="/members/<%= member._id%>">Cancel</a>
         </div>
-        <div>
-            <label for="email">Email</label>
-            <input type="text" name="member[email]" id="email" placeholder="Email" value="<%= member.email %>">
-        </div>
-        <button>Save Changes</button>
-    </form>
-    <a href="/members/<%= member._id %> ">Back to Member</a>
+    </div>
