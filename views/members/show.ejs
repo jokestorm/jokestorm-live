@@ -1,16 +1,30 @@
 <% layout('/layouts/boilerplate') %>
-    <h1>
-        <%= member.handle %>
-    </h1>
-    <h1>
-        <%= member.email %>
-    </h1>
-    <p>
-        <a href="/members/<%= member._id %>/edit">Edit</a>
-    </p>
-    <form action="/members/<%= member._id %>?_method=DELETE" method="post">
-        <button>Delete</button>
-    </form>
-    <footer>
-        <a href="/members">Members</a>
-    </footer>
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card mb-3">
+                <img src="https://source.unsplash.com/random/?technology" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <%= member.handle %>
+                    </h5>
+                    <p class="card-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ducimus quia
+                        mollitia, voluptatem quasi facilis deserunt laboriosam odit ipsa numquam repellat id sint fuga
+                        incidunt vitae accusamus quod aspernatur repellendus. Incidunt?</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item text-muted">
+                        <%= member.email %>
+                    </li>
+                </ul>
+                <div class="card-body">
+                    <a href="/members/<%= member._id %>/edit" class="card-link btn btn-info">Edit</a>
+                    <form class="d-inline" action="/members/<%= member._id %>?_method=DELETE" method="post">
+                        <button class="btn btn-danger ">Delete</button>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <a href="/members">Back to Members</a>
+                </div>
+            </div>
+        </div>
+    </div>
