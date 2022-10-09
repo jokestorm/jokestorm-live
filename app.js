@@ -97,6 +97,10 @@ app.get('/J.png', async (req,res) => {
 app.use((req,res) => {
     res.send(`404: Didn't find anything at ${req.path} from ${req.ip}`);
 })
+
+app.use((err, req, res, next) => {
+    next(err);
+})
 app.listen(80, () => {
     console.log('listening');
 });
