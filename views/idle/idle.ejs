@@ -1,13 +1,5 @@
 <% layout('/layouts/boilerplate') %>
-    <!-- <body class="bg-secondary text-center user-select-none"> -->
-    <!-- <nav class="site-header sticky-top py-1">
-        <div class="container d-flex flex-row justify-content-between fs-2">
-            <a class="py-2 d-inline-block" id="shop" href="#">Shop</a>
-            <a class="py-2 d-inline-block" id="collection" href="#">Collection</a>
-            <a class="py-2 d-inline-block" id="friends" href="#">Friends</a>
-        </div>
-    </nav> -->
-    <main class="user-select-none">
+    <div class="user-select-none">
         <script src="/idle.js" defer="true"></script>
         <div class="row position-relative overflow-hidden my-2 bg-light">
             <div class="col-12 d-flex justify-content-center mx-auto my-1">
@@ -15,14 +7,16 @@
                 <h1 class="display-4 font-weight-normal d-inline align-middle">Cat Swag</h1>
             </div>
         </div>
-        <div class="col m-3 text-start">
-            <h1 class="display-4 font-weight-normal">Monies: <span id="total">0</span></h1>
-            <div id="boost-text" class="invisible d-block">
-                <h2 class="font-weight-normal">Boost: x<span id="boost">1</span></h2>
+        <div class="row">
+            <div class="d-flex col justify-content-center">
+                <h1 class="display-4 font-weight-normal">Monies: <span id="total">0</span></h1>
+            </div>
+            <div class="d-flex col align-self-center justify-content-end">
+                <button class="btn btn-primary">Submit Score</button>
             </div>
         </div>
-        <div class="container-fluid text-start">
-            <div class="row my-2 invisible" id="row1">
+        <div class="row">
+            <div class="row invisible" id="row1">
                 <div class="col-3">
                     <button class="btn btn-success disabled" id="btn-auto1">Auto Thing <strong
                             id="auto1">0</strong></button>
@@ -32,15 +26,15 @@
                     <button class="btn btn-dark disabled" id="btn-upgrade1">Make Thing Faster</button>
                     Cost: <strong id="cost-upgrade1">10</strong>
                 </div>
-                <div class="col-5 d-flex">
+                <div class="col-5 d-flex justify-content-end">
                     <button class="btn btn-dark" id="btn-click1">Make Thing <strong id="tick1">1</strong></button>
                     <div class="visible" id="thing-maker-enable">
-                        <button class="btn btn-dark" id="btn-thing-maker">Buy Thing Maker</button>
-                        Cost: <strong id="cost-thing-maker">0</strong>
+                        <button class="btn btn-dark" id="btn-thing-maker">Buy Thing Maker $<strong id="cost-thing-maker">0</strong></button>
+                        
                     </div>
                 </div>
             </div>
-            <div class="row my-2 invisible" id="row2">
+            <div class="row invisible" id="row2">
                 <div class="col-3">
                     <button class="btn btn-success disabled" id="btn-auto2">Auto Stuff <strong
                             id="auto2">0</strong></button>
@@ -50,13 +44,13 @@
                     <button class="btn btn-dark disabled" id="btn-upgrade2">Make Stuff Faster</button>
                     Cost: <strong id="cost-upgrade2">25</strong>
                 </div>
-                <div class="col-5 d-flex">
+                <div class="col-5 d-flex justify-content-end">
                     <button class="btn btn-dark" id="btn-click2">Make Stuff <strong id="tick2">10</strong></button>
                     <div id="stuff-maker-enable">
-                        <button class="btn btn-dark disabled" id="btn-stuff-maker">Buy Stuff Maker</button>
-                        Cost: <strong id="cost-stuff-maker">1500</strong>
+                        <button class="btn btn-dark disabled" id="btn-stuff-maker">Buy Stuff Maker $: <strong id="cost-stuff-maker">1500</strong></button>
+                        
                     </div>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
