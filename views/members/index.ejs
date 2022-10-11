@@ -8,13 +8,16 @@
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <h5 class="card-title">
+                        <h2 class="card-title">
                             <%= member.handle %>
-                        </h5>
+                        </h2>
                         <p class="card-text">
                             <small class="text-muted">A Cool Cat</small>
                         </p>
                         <a class="btn btn-primary" href="members/<%= member._id %>">View Profile</a>
+                        <% if (member.idle.highScore) { %>
+                            <h3 class="mt-3">Idle High Score: <span class="badge bg-secondary"><%= member.idle.highScore %></span></h3>
+                        <% } %>
                     </div>
                 </div>
             </div>

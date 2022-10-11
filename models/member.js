@@ -4,6 +4,10 @@ const Schema = mongoose.Schema;
 const MemberSchema = new Schema({
     handle: String,
     email: String,
+    idle: {
+        currentScore: Number,
+        highScore: Number
+    },
     hash: String,
     salt: String
 })
