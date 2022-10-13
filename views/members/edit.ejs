@@ -2,21 +2,27 @@
     <div class="row">
         <h1 class="text-center">Edit Memeber</h1>
         <div class="col-6 offset-3">
-            <form action="/members/<%= member._id %>?_method=PUT" method="post">
+            <form action="/members/<%= member._id %>?_method=PUT" method="post" class="validated-form" novalidate>
                 <div class="mb-3">
                     <!-- <label for="handle">Username</label> -->
                     <input type="text" class="form-control" name="member[handle]" id="handle" placeholder="Username"
-                        value="<%= member.handle %>">
+                        value="<%= member.handle %>" required>
+                    <div class="valid-feedback">
+                        Nice.
+                    </div>
                 </div>
                 <div class="mb-3">
                     <!-- <label for="email">Email</label> -->
                     <input type="text" class="form-control" name="member[email]" id="email" placeholder="Email"
-                        value="<%= member.email %>">
+                        value="<%= member.email %>" required>
+                    <div class="valid-feedback">
+                        Close Enough.
+                    </div>
                 </div>
                 <div class="mb-3">
                     <button type="submit" class="btn btn-info">Save Changes</button>
                 </div>
             </form>
-            <a class= "btn btn-danger" href="/members/<%= member._id%>">Cancel</a>
+            <a class="btn btn-danger" href="/members/<%= member._id%>">Cancel</a>
         </div>
     </div>

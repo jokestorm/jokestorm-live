@@ -2,14 +2,22 @@
     <div class="row">
         <h1 class="text-center">New Memeber</h1>
         <div class="col-6 offset-3">
-            <form action="/members" method="post">
+            <form action="/members" method="post" novalidate class="validated-form">
                 <div class="mb-3">
                     <!-- <label for="handle">Username</label> -->
-                    <input type="text" class="form-control" name="member[handle]" id="handle" placeholder="Username">
+                    <input type="text" class="form-control" name="member[handle]" id="handle" placeholder="Username"
+                        required>
+                    <div class="valid-feedback">
+                        Nice.
+                    </div>
                 </div>
                 <div class="mb-3">
                     <!-- <label for="email">Email</label> -->
-                    <input type="text" class="form-control" name="member[email]" id="email" placeholder="Email">
+                    <input type="text" class="form-control" name="member[email]" id="email" placeholder="Email"
+                        required>
+                    <div class="valid-feedback">
+                        Close Enough.
+                    </div>
                 </div>
                 <div class="mb-3">
                     <button type="submit" class="btn btn-primary">Add Member</button>
