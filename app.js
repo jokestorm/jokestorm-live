@@ -94,9 +94,9 @@ app.get('/J.png', async (req, res) => {
     res.sendFile('views/J.png', { root: __dirname });
 });
 
-app.use((req, res) => {
-    res.send(`404: Didn't find anything at ${req.path} from ${req.ip}`);
-});
+app.all('*', (req, res, next) => {
+    res.send('404');
+})
 
 app.use((err, req, res, next) => {
     res.send('Ope')
