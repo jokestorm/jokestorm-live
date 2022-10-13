@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const ejsMate = require('ejs-mate')
 const methodOverride = require('method-override');
 const Member = require('./models/member');
-
+const catchAsync = require('./utils/catchAsync')
 mongoose.connect('mongodb://localhost:27017/jokestorm-live-dev', {
 });
 
@@ -16,7 +16,7 @@ db.once('open', () => {
 
 const app = express();
 
-app.engine('ejs',ejsMate);
+app.engine('ejs', ejsMate);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -27,16 +27,16 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
-app.get('/new-member', async (req, res) => {
+app.get('/new-member',  catchAsync(async (req, res) => {
     const member = new Member({ handle: "Jokestorm", email: "test@test.com" })
     await member.save();
     res.send(member)
-});
+}));
 
-app.get('/members', async (req, res) => {
+app.get('/members',  catchAsync(async (req, res) => {
     const members = await Member.find({});
     res.render('members/index', { members });
-});
+}));
 
 app.get('/members/new', (req, res) => {
     res.render('members/new');
@@ -46,61 +46,61 @@ app.get('/idle', (req, res) => {
     res.render('idle/idle');
 });
 
-app.post('/members', async (req, res) => {
+app.post('/members', catchAsync(async (req, res, next) => {
     const member = new Member(req.body.member);
     await member.save();
     res.redirect(`/members/${member._id}`);
-});
+}));
 
-app.get('/members/:id', async (req, res) => {
+app.get('/members/:id',  catchAsync(async (req, res) => {
     const member = await Member.findById(req.params.id);
     res.render('members/show', { member });
-});
+}));
 
-app.get('/members/:id/edit', async (req, res) => {
+app.get('/members/:id/edit',  catchAsync(async (req, res) => {
     const member = await Member.findById(req.params.id);
     res.render('members/edit', { member });
-});
+}));
 
-app.put('/members/:id', async (req, res) => {
+app.put('/members/:id',  catchAsync(async (req, res) => {
     const { id } = req.params;
     const member = await Member.findByIdAndUpdate(id, { ...req.body.member });
     res.redirect(`/members/${member._id}`);
-});
+}));
 
-app.delete('/members/:id', async (req, res) => {
+app.delete('/members/:id',  catchAsync(async (req, res) => {
     const { id } = req.params;
     await Member.findByIdAndDelete(id);
     res.redirect('/members');
+}));
+
+app.get('/idle.js', async (req, res) => {
+    res.sendFile('views/idle/idle.js', { root: __dirname });
 });
 
-app.get('/idle.js', async (req,res) => {
-    res.sendFile('views/idle/idle.js',{root: __dirname});
+app.get('/idle.css', async (req, res) => {
+    res.sendFile('views/idle/idle.css', { root: __dirname });
 });
 
-app.get('/idle.css', async (req,res) => {
-    res.sendFile('views/idle/idle.css',{root: __dirname});
+app.get('/Orange-Cat.png', async (req, res) => {
+    res.sendFile('views/idle/Orange-Cat.png', { root: __dirname });
 });
 
-app.get('/Orange-Cat.png', async (req,res) => {
-    res.sendFile('views/idle/Orange-Cat.png',{root: __dirname});
+app.get('/Discord-Logo-White.svg', async (req, res) => {
+    res.sendFile('views/idle/Discord-Logo-White.svg', { root: __dirname });
 });
 
-app.get('/Discord-Logo-White.svg', async (req,res) => {
-    res.sendFile('views/idle/Discord-Logo-White.svg',{root: __dirname});
+app.get('/J.png', async (req, res) => {
+    res.sendFile('views/J.png', { root: __dirname });
 });
 
-app.get('/J.png', async (req,res) => {
-    res.sendFile('views/J.png',{root: __dirname});
-});
-
-app.use((req,res) => {
+app.use((req, res) => {
     res.send(`404: Didn't find anything at ${req.path} from ${req.ip}`);
-})
+});
 
 app.use((err, req, res, next) => {
-    next(err);
-})
+    res.send('Ope')
+});
 
 app.listen(3000, () => {
     console.log('listening');
