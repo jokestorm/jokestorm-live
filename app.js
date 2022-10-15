@@ -94,14 +94,17 @@ app.get('/J.png', async (req, res) => {
     res.sendFile('views/J.png', { root: __dirname });
 });
 
+// 404 Responder
 app.all('*', (req, res, next) => {
     res.send('404');
 })
 
+// Error handler
 app.use((err, req, res, next) => {
     res.send('Ope')
 });
 
+// Server start listening
 app.listen(3000, () => {
     console.log('listening');
 });
