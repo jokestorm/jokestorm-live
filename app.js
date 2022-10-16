@@ -29,13 +29,13 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
-app.get('/new-member',  catchAsync(async (req, res) => {
+app.get('/new-member', catchAsync(async (req, res) => {
     const member = new Member({ handle: "Jokestorm", email: "test@test.com" })
     await member.save();
     res.send(member)
 }));
 
-app.get('/members',  catchAsync(async (req, res) => {
+app.get('/members', catchAsync(async (req, res) => {
     const members = await Member.find({});
     res.render('members/index', { members });
 }));
@@ -49,29 +49,29 @@ app.get('/idle', (req, res) => {
 });
 
 app.post('/members', catchAsync(async (req, res, next) => {
-    if(!req.body.member) throw new ExpressError('Invalid data', 400);
+    if (!req.body.member) throw new ExpressError('Invalid data', 400);
     const member = new Member(req.body.member);
     await member.save();
     res.redirect(`/members/${member._id}`);
 }));
 
-app.get('/members/:id',  catchAsync(async (req, res) => {
+app.get('/members/:id', catchAsync(async (req, res) => {
     const member = await Member.findById(req.params.id);
     res.render('members/show', { member });
 }));
 
-app.get('/members/:id/edit',  catchAsync(async (req, res) => {
+app.get('/members/:id/edit', catchAsync(async (req, res) => {
     const member = await Member.findById(req.params.id);
     res.render('members/edit', { member });
 }));
 
-app.put('/members/:id',  catchAsync(async (req, res) => {
+app.put('/members/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
     const member = await Member.findByIdAndUpdate(id, { ...req.body.member });
     res.redirect(`/members/${member._id}`);
 }));
 
-app.delete('/members/:id',  catchAsync(async (req, res) => {
+app.delete('/members/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
     await Member.findByIdAndDelete(id);
     res.redirect('/members');
@@ -104,8 +104,9 @@ app.all('*', (req, res, next) => {
 
 // Error handler
 app.use((err, req, res, next) => {
-    const { statusCode = 500, message = 'A problem has occurred'} = err;
-    res.status(statusCode).send(message);
+    const { statusCode = 500 } = err;
+    if (!err.message) err.message = 'An error has occurred';
+    res.status(statusCode).render('error', { err });
 });
 
 // Server start listening
