@@ -4,7 +4,9 @@ const mongoose = require('mongoose')
 const ejsMate = require('ejs-mate')
 const methodOverride = require('method-override');
 const Member = require('./models/member');
-const catchAsync = require('./utils/catchAsync')
+const catchAsync = require('./utils/catchAsync');
+const ExpressError = require('./utils/ExpressError');
+
 mongoose.connect('mongodb://localhost:27017/jokestorm-live-dev', {
 });
 
@@ -47,6 +49,7 @@ app.get('/idle', (req, res) => {
 });
 
 app.post('/members', catchAsync(async (req, res, next) => {
+    if(!req.body.member) throw new ExpressError('Invalid data', 400);
     const member = new Member(req.body.member);
     await member.save();
     res.redirect(`/members/${member._id}`);
@@ -96,12 +99,13 @@ app.get('/J.png', async (req, res) => {
 
 // 404 Responder
 app.all('*', (req, res, next) => {
-    res.send('404');
+    next(new ExpressError('Page Not Found', 404));
 })
 
 // Error handler
 app.use((err, req, res, next) => {
-    res.send('Ope')
+    const { statusCode = 500, message = 'A problem has occurred'} = err;
+    res.status(statusCode).send(message);
 });
 
 // Server start listening
