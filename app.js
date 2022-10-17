@@ -1,11 +1,13 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose')
+const Joi = require('joi');
 const ejsMate = require('ejs-mate')
 const methodOverride = require('method-override');
 const Member = require('./models/member');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
+const { string } = require('joi');
 
 mongoose.connect('mongodb://localhost:27017/jokestorm-live-dev', {
 });
@@ -49,7 +51,18 @@ app.get('/idle', (req, res) => {
 });
 
 app.post('/members', catchAsync(async (req, res, next) => {
-    if (!req.body.member) throw new ExpressError('Invalid data', 400);
+    const memberSchema = Joi.object({
+        member: Joi.object({
+            handle: Joi.string().required(),
+            email: Joi.string().required()
+        }).required()
+    });
+
+    const { error } = memberSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',');
+        throw new ExpressError(msg, 400);
+    }
     const member = new Member(req.body.member);
     await member.save();
     res.redirect(`/members/${member._id}`);
