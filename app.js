@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose')
 const Joi = require('joi');
+const { memberSchema } = require('./schemas')
 const ejsMate = require('ejs-mate')
 const methodOverride = require('method-override');
 const Member = require('./models/member');
@@ -27,15 +28,19 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
+const validateMember = (req, res, next) => {
+    const { error } = memberSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',');
+        throw new ExpressError(msg, 400);
+    } else {
+        next();
+    }
+}
+
 app.get('/', (req, res) => {
     res.render('index');
 });
-
-app.get('/new-member', catchAsync(async (req, res) => {
-    const member = new Member({ handle: "Jokestorm", email: "test@test.com" })
-    await member.save();
-    res.send(member)
-}));
 
 app.get('/members', catchAsync(async (req, res) => {
     const members = await Member.find({});
@@ -50,19 +55,7 @@ app.get('/idle', (req, res) => {
     res.render('idle/idle');
 });
 
-app.post('/members', catchAsync(async (req, res, next) => {
-    const memberSchema = Joi.object({
-        member: Joi.object({
-            handle: Joi.string().required(),
-            email: Joi.string().required()
-        }).required()
-    });
-
-    const { error } = memberSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(el => el.message).join(',');
-        throw new ExpressError(msg, 400);
-    }
+app.post('/members', validateMember, catchAsync(async (req, res, next) => {
     const member = new Member(req.body.member);
     await member.save();
     res.redirect(`/members/${member._id}`);
@@ -78,7 +71,7 @@ app.get('/members/:id/edit', catchAsync(async (req, res) => {
     res.render('members/edit', { member });
 }));
 
-app.put('/members/:id', catchAsync(async (req, res) => {
+app.put('/members/:id', validateMember, catchAsync(async (req, res) => {
     const { id } = req.params;
     const member = await Member.findByIdAndUpdate(id, { ...req.body.member });
     res.redirect(`/members/${member._id}`);
