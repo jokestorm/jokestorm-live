@@ -55,6 +55,7 @@ app.get('/idle', (req, res) => {
     res.render('idle/idle');
 });
 
+// New member route, POST to /members
 app.post('/members', validateMember, catchAsync(async (req, res, next) => {
     const member = new Member(req.body.member);
     await member.save();
@@ -77,6 +78,7 @@ app.put('/members/:id', validateMember, catchAsync(async (req, res) => {
     res.redirect(`/members/${member._id}`);
 }));
 
+// Delete a member by id, DELETE to /members/:id
 app.delete('/members/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
     await Member.findByIdAndDelete(id);
