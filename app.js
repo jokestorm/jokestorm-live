@@ -8,7 +8,6 @@ const methodOverride = require('method-override');
 const Member = require('./models/member');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
-const { string } = require('joi');
 
 mongoose.connect('mongodb://localhost:27017/jokestorm-live-dev', {
 });
