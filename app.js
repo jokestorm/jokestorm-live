@@ -27,6 +27,7 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
+// Middleware to validate using a JOI schema
 const validateMember = (req, res, next) => {
     const { error } = memberSchema.validate(req.body);
     if (error) {
