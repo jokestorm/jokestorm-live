@@ -38,6 +38,7 @@ const validateMember = (req, res, next) => {
     }
 }
 
+// Index route
 app.get('/', (req, res) => {
     res.render('index');
 });
