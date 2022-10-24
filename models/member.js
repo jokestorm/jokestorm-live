@@ -9,7 +9,13 @@ const MemberSchema = new Schema({
         highScore: Number
     },
     hash: String,
-    salt: String
+    salt: String,
+    reviews: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Review'
+        }
+    ]
 })
 
 module.exports = mongoose.model('Member', MemberSchema);
