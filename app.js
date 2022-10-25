@@ -9,6 +9,7 @@ const Member = require('./models/member');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 
+// Link to databases
 mongoose.connect('mongodb://localhost:27017/jokestorm-live-dev', {
 });
 
