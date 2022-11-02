@@ -6,6 +6,7 @@ const { memberSchema } = require('./schemas')
 const ejsMate = require('ejs-mate')
 const methodOverride = require('method-override');
 const Member = require('./models/member');
+const Review = require('./models/review');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 
@@ -85,6 +86,16 @@ app.delete('/members/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
     await Member.findByIdAndDelete(id);
     res.redirect('/members');
+}));
+
+app.post('/members/:id/reviews', catchAsync(async ( req, res) => {
+    const { id } = req.params;
+    const member = await Member.findById(id);
+    const review = new Review(req.body.review);
+    member.reviews.push(review);
+    await review.save();
+    await member.save();
+    res.redirect(`/members/${member._id}`);
 }));
 
 app.get('/idle.js', async (req, res) => {
