@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose')
 const Joi = require('joi');
-const { memberSchema } = require('./schemas')
+const { memberSchema, reviewSchema } = require('./schemas')
 const ejsMate = require('ejs-mate')
 const methodOverride = require('method-override');
 const Member = require('./models/member');
@@ -32,6 +32,16 @@ app.use(methodOverride('_method'));
 // Middleware to validate using a JOI schema
 const validateMember = (req, res, next) => {
     const { error } = memberSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',');
+        throw new ExpressError(msg, 400);
+    } else {
+        next();
+    }
+}
+
+const validateReview = (req, res, next) => {
+    const { error } = reviewSchema.validate(req.body);
     if (error) {
         const msg = error.details.map(el => el.message).join(',');
         throw new ExpressError(msg, 400);
@@ -88,7 +98,7 @@ app.delete('/members/:id', catchAsync(async (req, res) => {
     res.redirect('/members');
 }));
 
-app.post('/members/:id/reviews', catchAsync(async ( req, res) => {
+app.post('/members/:id/reviews', validateReview, catchAsync(async ( req, res) => {
     const { id } = req.params;
     const member = await Member.findById(id);
     const review = new Review(req.body.review);
