@@ -76,7 +76,8 @@ app.post('/members', validateMember, catchAsync(async (req, res, next) => {
 }));
 
 app.get('/members/:id', catchAsync(async (req, res) => {
-    const member = await Member.findById(req.params.id);
+    // Populate reviews because we are only storing an ID
+    const member = await Member.findById(req.params.id).populate('reviews');
     res.render('members/show', { member });
 }));
 
