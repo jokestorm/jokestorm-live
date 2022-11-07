@@ -99,7 +99,7 @@ app.delete('/members/:id', catchAsync(async (req, res) => {
     res.redirect('/members');
 }));
 
-app.post('/members/:id/reviews', validateReview, catchAsync(async ( req, res) => {
+app.post('/members/:id/reviews', validateReview, catchAsync(async (req, res) => {
     const { id } = req.params;
     const member = await Member.findById(id);
     const review = new Review(req.body.review);
@@ -107,6 +107,13 @@ app.post('/members/:id/reviews', validateReview, catchAsync(async ( req, res) =>
     await review.save();
     await member.save();
     res.redirect(`/members/${member._id}`);
+}));
+
+app.delete('/members/:id/reviews/:reviewId', catchAsync(async (req, res,) => {
+    const { id, reviewId } = req.params;
+    await Member.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+    await Review.findByIdAndDelete(req.params.reviewID)
+    res.redirect(`/members/${id}`)
 }));
 
 app.get('/idle.js', async (req, res) => {
