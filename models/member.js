@@ -19,6 +19,7 @@ const MemberSchema = new Schema({
     ]
 });
 
+// Mongoose middleware, hook into findOneAndDelete, delete reviews from the member if they are found
 MemberSchema.post('findOneAndDelete', async function (doc) {
     if(doc){
         await Review.deleteMany( {
