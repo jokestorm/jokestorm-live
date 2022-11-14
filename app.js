@@ -1,14 +1,16 @@
 const express = require('express');
 const path = require('path');
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 const Joi = require('joi');
-const { memberSchema, reviewSchema } = require('./schemas')
-const ejsMate = require('ejs-mate')
+const { memberSchema, reviewSchema } = require('./schemas');
+const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
 const Member = require('./models/member');
 const Review = require('./models/review');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
+
+const members = require('./routes/members');
 
 // Link to databases
 mongoose.connect('mongodb://localhost:27017/jokestorm-live-dev', {
@@ -29,17 +31,6 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
-// Middleware to validate using a JOI schema
-const validateMember = (req, res, next) => {
-    const { error } = memberSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(el => el.message).join(',');
-        throw new ExpressError(msg, 400);
-    } else {
-        next();
-    }
-}
-
 const validateReview = (req, res, next) => {
     const { error } = reviewSchema.validate(req.body);
     if (error) {
@@ -50,54 +41,16 @@ const validateReview = (req, res, next) => {
     }
 }
 
+app.use('/members', members)
+
 // Index route
 app.get('/', (req, res) => {
     res.render('index');
 });
 
-app.get('/members', catchAsync(async (req, res) => {
-    const members = await Member.find({});
-    res.render('members/index', { members });
-}));
-
-app.get('/members/new', (req, res) => {
-    res.render('members/new');
-});
-
 app.get('/idle', (req, res) => {
     res.render('idle/idle');
 });
-
-// New member route, POST to /members
-app.post('/members', validateMember, catchAsync(async (req, res, next) => {
-    const member = new Member(req.body.member);
-    await member.save();
-    res.redirect(`/members/${member._id}`);
-}));
-
-app.get('/members/:id', catchAsync(async (req, res) => {
-    // Populate reviews because we are only storing an ID
-    const member = await Member.findById(req.params.id).populate('reviews');
-    res.render('members/show', { member });
-}));
-
-app.get('/members/:id/edit', catchAsync(async (req, res) => {
-    const member = await Member.findById(req.params.id);
-    res.render('members/edit', { member });
-}));
-
-app.put('/members/:id', validateMember, catchAsync(async (req, res) => {
-    const { id } = req.params;
-    const member = await Member.findByIdAndUpdate(id, { ...req.body.member });
-    res.redirect(`/members/${member._id}`);
-}));
-
-// Delete a member by id, DELETE to /members/:id
-app.delete('/members/:id', catchAsync(async (req, res) => {
-    const { id } = req.params;
-    await Member.findByIdAndDelete(id);
-    res.redirect('/members');
-}));
 
 app.post('/members/:id/reviews', validateReview, catchAsync(async (req, res) => {
     const { id } = req.params;
