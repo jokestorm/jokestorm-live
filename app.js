@@ -8,7 +8,7 @@ const ExpressError = require('./utils/ExpressError');
 const members = require('./routes/members');
 const reviews = require('./routes/reviews');
 
-// Link to databases
+// Link to database
 mongoose.connect('mongodb://localhost:27017/jokestorm-live-dev', {
 });
 
@@ -26,6 +26,7 @@ app.set('view engine', 'ejs');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/members', members);
 
@@ -39,26 +40,6 @@ app.get('/', (req, res) => {
 
 app.get('/idle', (req, res) => {
     res.render('idle/idle');
-});
-
-app.get('/idle.js', async (req, res) => {
-    res.sendFile('views/idle/idle.js', { root: __dirname });
-});
-
-app.get('/idle.css', async (req, res) => {
-    res.sendFile('views/idle/idle.css', { root: __dirname });
-});
-
-app.get('/Orange-Cat.png', async (req, res) => {
-    res.sendFile('views/idle/Orange-Cat.png', { root: __dirname });
-});
-
-app.get('/Discord-Logo-White.svg', async (req, res) => {
-    res.sendFile('views/idle/Discord-Logo-White.svg', { root: __dirname });
-});
-
-app.get('/J.png', async (req, res) => {
-    res.sendFile('views/J.png', { root: __dirname });
 });
 
 // 404 Responder
