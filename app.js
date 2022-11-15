@@ -1,16 +1,12 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
-const Joi = require('joi');
-const { memberSchema, reviewSchema } = require('./schemas');
 const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
-const Member = require('./models/member');
-const Review = require('./models/review');
-const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 
 const members = require('./routes/members');
+const reviews = require('./routes/reviews');
 
 // Link to databases
 mongoose.connect('mongodb://localhost:27017/jokestorm-live-dev', {
@@ -31,17 +27,10 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
-const validateReview = (req, res, next) => {
-    const { error } = reviewSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(el => el.message).join(',');
-        throw new ExpressError(msg, 400);
-    } else {
-        next();
-    }
-}
+app.use('/members', members);
 
-app.use('/members', members)
+// Since we want this ID, we need to use {mergeParams: true} in the router
+app.use('/members/:id/reviews', reviews);
 
 // Index route
 app.get('/', (req, res) => {
@@ -51,23 +40,6 @@ app.get('/', (req, res) => {
 app.get('/idle', (req, res) => {
     res.render('idle/idle');
 });
-
-app.post('/members/:id/reviews', validateReview, catchAsync(async (req, res) => {
-    const { id } = req.params;
-    const member = await Member.findById(id);
-    const review = new Review(req.body.review);
-    member.reviews.push(review);
-    await review.save();
-    await member.save();
-    res.redirect(`/members/${member._id}`);
-}));
-
-app.delete('/members/:id/reviews/:reviewId', catchAsync(async (req, res,) => {
-    const { id, reviewId } = req.params;
-    await Member.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
-    await Review.findByIdAndDelete(req.params.reviewID)
-    res.redirect(`/members/${id}`)
-}));
 
 app.get('/idle.js', async (req, res) => {
     res.sendFile('views/idle/idle.js', { root: __dirname });
