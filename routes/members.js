@@ -26,6 +26,7 @@ router.get('/', catchAsync(async (req, res) => {
 router.post('/', validateMember, catchAsync(async (req, res, next) => {
     const member = new Member(req.body.member);
     await member.save();
+    req.flash('success', 'New Member Success');
     res.redirect(`/members/${member._id}`);
 }));
 
