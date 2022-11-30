@@ -37,12 +37,17 @@ router.get('/new', (req, res) => {
 router.get('/:id', catchAsync(async (req, res) => {
     // Populate reviews because we are only storing an ID
     const member = await Member.findById(req.params.id).populate('reviews');
+    if (!member) {
+        req.flash('error', 'Unable to find member');
+        return res.redirect('/members');
+    }
     res.render('members/show', { member });
 }));
 
 router.put('/:id', validateMember, catchAsync(async (req, res) => {
     const { id } = req.params;
     const member = await Member.findByIdAndUpdate(id, { ...req.body.member });
+    req.flash('success', 'Successfully updated.');
     res.redirect(`/members/${member._id}`);
 }));
 
@@ -50,11 +55,16 @@ router.put('/:id', validateMember, catchAsync(async (req, res) => {
 router.delete('/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
     await Member.findByIdAndDelete(id);
+    req.flash('success', 'Successfully deleted member.');
     res.redirect('/members');
 }));
 
 router.get('/:id/edit', catchAsync(async (req, res) => {
     const member = await Member.findById(req.params.id);
+    if (!member) {
+        req.flash('error', 'Unable to find member');
+        return res.redirect('/members');
+    }
     res.render('members/edit', { member });
 }));
 
