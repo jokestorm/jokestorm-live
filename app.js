@@ -3,32 +3,25 @@ const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
-const ExpressError = require('./utils/ExpressError');
 const session = require('express-session');
-const flash = require("connect-flash")
+const flash = require('connect-flash');
+const passport = require('passport');
+const passportLocal = require('passport-local');
 
-const members = require('./routes/members');
-const reviews = require('./routes/reviews');
+const ExpressError = require('./utils/ExpressError');
+const membersRoutes = require('./routes/members');
+const reviewsRoutes = require('./routes/reviews');
+const usersRoutes = require('./routes/users');
+const User = require('./models/user');
 
 // Link to database
 mongoose.connect('mongodb://localhost:27017/jokestorm-live-dev', {
 });
-
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
     console.log('Database connected');
 });
-
-const app = express();
-
-app.engine('ejs', ejsMate);
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
-app.use(express.urlencoded({ extended: true }));
-app.use(methodOverride('_method'));
-app.use(express.static(path.join(__dirname, 'public')));
 
 const sessionConfig = {
     secret: 'ReplaceThisInProd',
@@ -41,8 +34,23 @@ const sessionConfig = {
     }
 }
 
+const app = express();
+
+app.engine('ejs', ejsMate);
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(session(sessionConfig));
 app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new passportLocal(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 // Middleware to pass the flash message to the req
 app.use((req, res, next) => {
@@ -51,10 +59,10 @@ app.use((req, res, next) => {
     next();
 })
 
-app.use('/members', members);
-
+app.use('/members', membersRoutes);
+app.use('/', usersRoutes);
 // Since we want this ID, we need to use {mergeParams: true} in the router
-app.use('/members/:id/reviews', reviews);
+app.use('/members/:id/reviews', reviewsRoutes);
 
 // Index route
 app.get('/', (req, res) => {
