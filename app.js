@@ -73,6 +73,10 @@ app.get('/idle', (req, res) => {
     res.render('idle/idle');
 });
 
+app.get('/tanks', (req, res) => {
+    res.render('tanks/tanks')
+});
+
 // 404 Responder
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404));
