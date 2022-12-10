@@ -2,6 +2,7 @@ const express = require('express');
 const catchAsync = require('../utils/catchAsync');
 const ExpressError = require('../utils/ExpressError');
 const { memberSchema } = require('../schemas');
+const { isLoggedIn } = require('../middleware');
 const Member = require('../models/member');
 
 const router = express.Router();
@@ -23,14 +24,14 @@ router.get('/', catchAsync(async (req, res) => {
 }));
 
 // New member route, POST to /members
-router.post('/', validateMember, catchAsync(async (req, res, next) => {
+router.post('/', isLoggedIn, validateMember, catchAsync(async (req, res, next) => {
     const member = new Member(req.body.member);
     await member.save();
     req.flash('success', 'New Member Success');
     res.redirect(`/members/${member._id}`);
 }));
 
-router.get('/new', (req, res) => {
+router.get('/new', isLoggedIn, (req, res) => {
     res.render('members/new');
 });
 
@@ -44,7 +45,7 @@ router.get('/:id', catchAsync(async (req, res) => {
     res.render('members/show', { member });
 }));
 
-router.put('/:id', validateMember, catchAsync(async (req, res) => {
+router.put('/:id', isLoggedIn, validateMember, catchAsync(async (req, res) => {
     const { id } = req.params;
     const member = await Member.findByIdAndUpdate(id, { ...req.body.member });
     req.flash('success', 'Successfully updated.');
@@ -52,14 +53,14 @@ router.put('/:id', validateMember, catchAsync(async (req, res) => {
 }));
 
 // Delete a member by id, DELETE to /members/:id
-router.delete('/:id', catchAsync(async (req, res) => {
+router.delete('/:id', isLoggedIn, catchAsync(async (req, res) => {
     const { id } = req.params;
     await Member.findByIdAndDelete(id);
     req.flash('success', 'Successfully deleted member.');
     res.redirect('/members');
 }));
 
-router.get('/:id/edit', catchAsync(async (req, res) => {
+router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
     const member = await Member.findById(req.params.id);
     if (!member) {
         req.flash('error', 'Unable to find member');
