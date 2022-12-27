@@ -16,8 +16,11 @@ router.post('/signup', catchAsync(async (req, res) => {
         const user = new User({ email, username });
         const registeredUser = await User.register(user, password);
         console.log(registeredUser);
-        req.flash('success', 'Great Job Signing Up!');
-        res.redirect('/members');
+        req.login(registeredUser, err => {
+            if (err) return next(err);
+            req.flash('success', 'Great Job Signing Up!');
+            res.redirect('/members');
+        });
     } catch (error) {
         req.flash('error', error.message);
         res.redirect('/signup')
@@ -31,6 +34,16 @@ router.get('/login', (req, res) => {
 router.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req, res) => {
     req.flash('success', 'Welcome');
     res.redirect('/members');
+});
+
+router.get('/logout', (req, res, next) => {
+    req.logout(function (err) {
+        if (err) {
+            return next(err);
+        }
+        req.flash('success', 'Successfully Logged Out');
+        res.redirect('/members');
+    });
 });
 
 module.exports = router;
