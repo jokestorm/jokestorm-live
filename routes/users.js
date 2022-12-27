@@ -33,7 +33,12 @@ router.get('/login', (req, res) => {
 
 router.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req, res) => {
     req.flash('success', 'Welcome');
-    res.redirect('/members');
+    console.log(req.session.returnTo);
+    // This logic below does not work. The session changes when user is logged in, so the returnTo property is undefined
+    // TODO: update the logic to pass the path through the redirect with a query string.
+    const redirectUrl = req.session.returnTo || '/members';
+    delete req.session.returnTo;
+    res.redirect(redirectUrl);
 });
 
 router.get('/logout', (req, res, next) => {
