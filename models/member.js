@@ -3,14 +3,16 @@ const Review = require('./review');
 const Schema = mongoose.Schema;
 
 const MemberSchema = new Schema({
-    handle: { type: String, required: true },
-    email: String,
+    title: { type: String, required: true },
+    description: String,
     idle: {
         currentScore: Number,
         highScore: Number
     },
-    hash: String,
-    salt: String,
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
     reviews: [
         {
             type: Schema.Types.ObjectId,
