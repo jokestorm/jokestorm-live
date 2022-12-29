@@ -12,12 +12,12 @@ const projectile = {
 };
 
 function loop() {
-    ctx.clearRect(0,0, canvas.clientWidth, canvas.clientHeight);
+    ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
     projectile.x += projectile.speed * Math.cos(projectile.direction);
     projectile.y += projectile.speed * Math.sin(projectile.direction);
 
     ctx.beginPath();
-    ctx.arc(projectile.x,projectile.y, projectile.radius, 0,Math.PI *2);
+    ctx.arc(projectile.x, projectile.y, projectile.radius, 0, Math.PI * 2);
     ctx.fillStyle = 'black'
     ctx.fill();
 
@@ -26,9 +26,9 @@ function loop() {
 
 loop();
 
-function collision(a,b) {
-    return a.x -b.x < b.width / 2 + a.radius &&
-    b.x - a.x < b.width / 2 + a.radius &&
-    a.y - b.y < b.height / 2 + a.radius &&
-    b.y - a.y < b.height / 2 + a.radius;
+function collision(a, b) {
+    return a.x - b.x < b.width / 2 + a.radius &&
+        b.x - a.x < b.width / 2 + a.radius &&
+        a.y - b.y < b.height / 2 + a.radius &&
+        b.y - a.y < b.height / 2 + a.radius;
 }

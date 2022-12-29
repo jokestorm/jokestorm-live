@@ -30,9 +30,11 @@
 .overflow-hidden {
     overflow: hidden;
 }
+
 button {
     min-width: 155px;
 }
+
 #btn-login {
     background-color: #5865F2;
 }
