@@ -7,7 +7,7 @@ const Member = require('../models/member');
 const Review = require('../models/review');
 const { reviewSchema } = require('../schemas');
 
-const router = express.Router({mergeParams: true});
+const router = express.Router({ mergeParams: true });
 
 // Middleware to validate using a JOI schema
 const validateReview = (req, res, next) => {
