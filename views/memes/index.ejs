@@ -12,17 +12,12 @@
     <div class="col-md-8">
       <div class="card-body">
         <h2 class="card-title">
-          <%= meme.handle %>
+          <%= meme.title %>
         </h2>
         <p class="card-text">
-          <small class="text-muted">A Cool Cat</small>
+          <small class="text-muted"><%= meme.description %></small>
         </p>
-        <a class="btn btn-primary" href="memes/<%= meme._id %>">View Profile</a>
-        <% if (meme.idle.highScore) { %>
-        <h3 class="mt-3">Idle High Score: <span class="badge bg-secondary">
-            <%= meme.idle.highScore %>
-          </span></h3>
-        <% } %>
+        <a class="btn btn-primary" href="memes/<%= meme._id %>">View Meme</a>
       </div>
     </div>
   </div>
