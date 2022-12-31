@@ -5,7 +5,7 @@
       <img src="/img/Orange-Cat.png" class="card-img-top" alt="...">
       <div class="card-body">
         <h2 class="card-title">
-          <%= member.handle %>
+          <%= meme.handle %>
         </h2>
         <p class="card-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ducimus quia
           mollitia, voluptatem quasi facilis deserunt laboriosam odit ipsa numquam repellat id sint fuga
@@ -13,30 +13,30 @@
       </div>
       <ul class="list-group list-group-flush">
         <li class="list-group-item text-muted">
-          <%= member.email %>
+          <%= meme.email %>
         </li>
-        <% if (member.idle.highScore) { %>
+        <% if (meme.idle.highScore) { %>
         <li class="list-group-item">
           <h5 class="mt-3">Idle High Score: <span class="badge bg-secondary">
-              <%= member.idle.highScore %>
+              <%= meme.idle.highScore %>
             </span></h5>
         </li>
         <% } %>
       </ul>
       <div class="card-body">
-        <a href="/members/<%= member._id %>/edit" class="card-link btn btn-info">Edit</a>
-        <form class="d-inline" action="/members/<%= member._id %>?_method=DELETE" method="post">
+        <a href="/memes/<%= meme._id %>/edit" class="card-link btn btn-info">Edit</a>
+        <form class="d-inline" action="/memes/<%= meme._id %>?_method=DELETE" method="post">
           <button class="btn btn-danger ">Delete</button>
         </form>
       </div>
       <div class="card-footer">
-        <a href="/members">Back to Members</a>
+        <a href="/memes">Back to Memes</a>
       </div>
     </div>
   </div>
   <div class="col-6">
     <h2>Leave A Review</h2>
-    <form class="mb-3 validated-form" action="/members/<%= member._id %>/reviews" method="POST" novalidate>
+    <form class="mb-3 validated-form" action="/memes/<%= meme._id %>/reviews" method="POST" novalidate>
       <div class="mb-3">
         <label class="form-label" for="rating">Rating</label>
         <input class="form-range" type="range" min="1" max="5" name="review[rating]" id="rating">
@@ -50,7 +50,7 @@
       </div>
       <button class="btn btn-success">Submit</button>
     </form>
-    <% for( let review of member.reviews) { %>
+    <% for( let review of meme.reviews) { %>
     <div class="card mb-3">
       <div class="card-body">
         <h2 class="card-title">
@@ -59,7 +59,7 @@
         <p class="card-text">
           Review: <%= review.body %>
         </p>
-        <form action="/members/<%= member._id %>/reviews/<%= review._id %>?_method=DELETE" method="post">
+        <form action="/memes/<%= meme._id %>/reviews/<%= review._id %>?_method=DELETE" method="post">
           <button class="btn btn-danger">Delete</button>
         </form>
       </div>

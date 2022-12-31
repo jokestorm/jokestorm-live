@@ -1,7 +1,7 @@
 const Joi = require('joi')
 
-module.exports.memberSchema = Joi.object({
-    member: Joi.object({
+module.exports.memeSchema = Joi.object({
+    meme: Joi.object({
         handle: Joi.string().required(),
         email: Joi.string().required()
     }).required()

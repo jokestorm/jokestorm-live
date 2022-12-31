@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
-const members = require('./members')
-const Member = require('../models/member');
-const { emit } = require('../models/member');
+const memes = require('./memes')
+const Meme = require('../models/meme');
 
 mongoose.connect('mongodb://localhost:27017/jokestorm-live-dev', {
 });
@@ -13,13 +12,13 @@ db.once('open', () => {
 });
 
 const seedDB = async () => {
-    await Member.deleteMany({});
+    await Meme.deleteMany({});
     for (let i = 0; i < 10; i++) {
-        const member = new Member({
-            handle: `${members[i].username}`,
-            email: `${members[i].email}`
+        const meme = new Meme({
+            handle: `${memes[i].username}`,
+            email: `${memes[i].email}`
         })
-        await member.save();
+        await meme.save();
     }
 }
 
