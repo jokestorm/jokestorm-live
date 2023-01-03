@@ -1,0 +1,26 @@
+<% layout('/layouts/boilerplate') %>
+<div class="row">
+  <h1 class="text-center">New Meme</h1>
+  <div class="col-6 offset-3">
+    <form action="/memes" method="post" novalidate class="validated-form">
+      <div class="mb-3">
+        <!-- <label for="title">Title</label> -->
+        <input type="text" class="form-control" name="meme[title]" id="title" placeholder="Title" required>
+        <div class="valid-feedback">
+          Nice.
+        </div>
+      </div>
+      <div class="mb-3">
+        <!-- <label for="description">Description</label> -->
+        <textarea class="form-control" name="meme[description]" id="description" placeholder="Description" required></textarea>
+        <div class="valid-feedback">
+          Close Enough.
+        </div>
+      </div>
+      <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Add Meme</button>
+      </div>
+    </form>
+    <a href="/memes">Back to Memes</a>
+  </div>
+</div>

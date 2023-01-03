@@ -1,0 +1,26 @@
+<% layout('/layouts/boilerplate') %>
+<div class="row">
+  <h1 class="text-center">Edit Meme</h1>
+  <div class="col-6 offset-3">
+    <form action="/memes/<%= meme._id %>?_method=PUT" method="post" class="validated-form" novalidate>
+      <div class="mb-3">
+        <!-- <label for="title">Title</label> -->
+        <input type="text" class="form-control" name="meme[title]" id="title" placeholder="Title" value="<%= meme.title %>" required>
+        <div class="valid-feedback">
+          Nice.
+        </div>
+      </div>
+      <div class="mb-3">
+        <!-- <label for="description">Description</label> -->
+        <textarea class="form-control" name="meme[description]" id="description" placeholder="Description" value="<%= meme.description %>" required></textarea>
+        <div class="valid-feedback">
+          Close Enough.
+        </div>
+      </div>
+      <div class="mb-3">
+        <button type="submit" class="btn btn-info">Save Changes</button>
+      </div>
+    </form>
+    <a class="btn btn-danger" href="/memes/<%= meme._id%>">Cancel</a>
+  </div>
+</div>
