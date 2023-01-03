@@ -15,8 +15,9 @@ const seedDB = async () => {
     await Meme.deleteMany({});
     for (let i = 0; i < 10; i++) {
         const meme = new Meme({
-            handle: `${memes[i].username}`,
-            email: `${memes[i].email}`
+            author: '63b3b34e4bfedb97e73fc36a',
+            title: `${memes[i].title}`,
+            description: `${memes[i].description}`
         })
         await meme.save();
     }

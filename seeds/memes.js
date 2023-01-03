@@ -1,42 +1,42 @@
 module.exports = [
     {
-        username: "A",
-        email: "A@A.com"
+        title: "A",
+        description: "A@A.com"
     },
     {
-        username: "B",
-        email: "B@B.com"
+        title: "B",
+        description: "B@B.com"
     },
     {
-        username: "C",
-        email: "C@C.com"
+        title: "C",
+        description: "C@C.com"
     },
     {
-        username: "D",
-        email: "D@D.com"
+        title: "D",
+        description: "D@D.com"
     },
     {
-        username: "E",
-        email: "E@E.com"
+        title: "E",
+        description: "E@E.com"
     },
     {
-        username: "F",
-        email: "F@F.com"
+        title: "F",
+        description: "F@F.com"
     },
     {
-        username: "G",
-        email: "G@G.com"
+        title: "G",
+        description: "G@G.com"
     },
     {
-        username: "H",
-        email: "H@H.com"
+        title: "H",
+        description: "H@H.com"
     },
     {
-        username: "I",
-        email: "I@I.com"
+        title: "I",
+        description: "I@I.com"
     },
     {
-        username: "J",
-        email: "J@J.com"
+        title: "J",
+        description: "J@J.com"
     },
 ]

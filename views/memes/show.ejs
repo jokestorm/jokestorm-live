@@ -9,6 +9,9 @@
         </h2>
         <p class="card-text"><%= meme.description %></p>
       </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item text-muted">Submitted by <%= meme.author.username %></li>
+      </ul>
       <div class="card-body">
         <a href="/memes/<%= meme._id %>/edit" class="card-link btn btn-info">Edit</a>
         <form class="d-inline" action="/memes/<%= meme._id %>?_method=DELETE" method="post">

@@ -26,8 +26,9 @@ router.get('/', catchAsync(async (req, res) => {
 // New meme route, POST to /memes
 router.post('/', isLoggedIn, validateMeme, catchAsync(async (req, res, next) => {
     const meme = new Meme(req.body.meme);
+    meme.author = req.user._id;
     await meme.save();
-    req.flash('success', 'New Meme Success');
+    req.flash('success', 'Successfully submitted a new meme!');
     res.redirect(`/memes/${meme._id}`);
 }));
 
@@ -37,7 +38,8 @@ router.get('/new', isLoggedIn, (req, res) => {
 
 router.get('/:id', catchAsync(async (req, res) => {
     // Populate reviews because we are only storing an ID
-    const meme = await Meme.findById(req.params.id).populate('reviews');
+    const meme = await Meme.findById(req.params.id).populate('reviews').populate('author');
+    console.log(meme);
     if (!meme) {
         req.flash('error', 'Unable to find meme');
         return res.redirect('/memes');
