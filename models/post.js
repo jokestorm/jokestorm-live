@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Review = require('./review');
 const Schema = mongoose.Schema;
 
-const MemeSchema = new Schema({
+const PostSchema = new Schema({
     title: { type: String, required: true },
     description: String,
     author: {
@@ -17,8 +17,8 @@ const MemeSchema = new Schema({
     ]
 });
 
-// Mongoose middleware, hook into findOneAndDelete, delete reviews from the meme if they are found
-MemeSchema.post('findOneAndDelete', async function (doc) {
+// Mongoose middleware, hook into findOneAndDelete, delete reviews from the post if they are found
+PostSchema.post('findOneAndDelete', async function (doc) {
     if (doc) {
         await Review.deleteMany({
             _id: {
@@ -28,4 +28,4 @@ MemeSchema.post('findOneAndDelete', async function (doc) {
     }
 });
 
-module.exports = mongoose.model('Meme', MemeSchema);
+module.exports = mongoose.model('Post', PostSchema);

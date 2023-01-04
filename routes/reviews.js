@@ -3,7 +3,7 @@ const express = require('express');
 const catchAsync = require('../utils/catchAsync');
 const ExpressError = require('../utils/ExpressError');
 
-const Meme = require('../models/meme');
+const Post = require('../models/post');
 const Review = require('../models/review');
 const { reviewSchema } = require('../schemas');
 
@@ -22,21 +22,21 @@ const validateReview = (req, res, next) => {
 
 router.post('/', validateReview, catchAsync(async (req, res) => {
     const { id } = req.params;
-    const meme = await Meme.findById(id);
+    const post = await Post.findById(id);
     const review = new Review(req.body.review);
-    meme.reviews.push(review);
+    post.reviews.push(review);
     await review.save();
-    await meme.save();
+    await post.save();
     req.flash('success', 'Created new review!');
-    res.redirect(`/memes/${meme._id}`);
+    res.redirect(`/posts/${post._id}`);
 }));
 
 router.delete('/:reviewId', catchAsync(async (req, res,) => {
     const { id, reviewId } = req.params;
-    await Meme.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+    await Post.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
     await Review.findByIdAndDelete(req.params.reviewID);
     req.flash('success', 'Successfully deleted review.');
-    res.redirect(`/memes/${id}`);
+    res.redirect(`/posts/${id}`);
 }));
 
 module.exports = router;

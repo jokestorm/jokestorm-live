@@ -5,27 +5,27 @@
       <img src="/img/Orange-Cat.png" class="card-img-top" alt="...">
       <div class="card-body">
         <h2 class="card-title">
-          <%= meme.title %>
+          <%= post.title %>
         </h2>
-        <p class="card-text"><%= meme.description %></p>
+        <p class="card-text"><%= post.description %></p>
       </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item text-muted">Submitted by <%= meme.author.username %></li>
+        <li class="list-group-item text-muted">Submitted by <%= post.author.username %></li>
       </ul>
       <div class="card-body">
-        <a href="/memes/<%= meme._id %>/edit" class="card-link btn btn-info">Edit</a>
-        <form class="d-inline" action="/memes/<%= meme._id %>?_method=DELETE" method="post">
+        <a href="/posts/<%= post._id %>/edit" class="card-link btn btn-info">Edit</a>
+        <form class="d-inline" action="/posts/<%= post._id %>?_method=DELETE" method="post">
           <button class="btn btn-danger ">Delete</button>
         </form>
       </div>
       <div class="card-footer">
-        <a href="/memes">Back to Memes</a>
+        <a href="/posts">Back to Posts</a>
       </div>
     </div>
   </div>
   <div class="col-6">
     <h2>Leave A Review</h2>
-    <form class="mb-3 validated-form" action="/memes/<%= meme._id %>/reviews" method="POST" novalidate>
+    <form class="mb-3 validated-form" action="/posts/<%= post._id %>/reviews" method="POST" novalidate>
       <div class="mb-3">
         <label class="form-label" for="rating">Rating</label>
         <input class="form-range" type="range" min="1" max="5" name="review[rating]" id="rating">
@@ -39,7 +39,7 @@
       </div>
       <button class="btn btn-success">Submit</button>
     </form>
-    <% for( let review of meme.reviews) { %>
+    <% for( let review of post.reviews) { %>
     <div class="card mb-3">
       <div class="card-body">
         <h2 class="card-title">
@@ -48,7 +48,7 @@
         <p class="card-text">
           Review: <%= review.body %>
         </p>
-        <form action="/memes/<%= meme._id %>/reviews/<%= review._id %>?_method=DELETE" method="post">
+        <form action="/posts/<%= post._id %>/reviews/<%= review._id %>?_method=DELETE" method="post">
           <button class="btn btn-danger">Delete</button>
         </form>
       </div>

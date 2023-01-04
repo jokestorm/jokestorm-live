@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
-const memes = require('./memes')
-const Meme = require('../models/meme');
+const posts = require('./posts')
+const Post = require('../models/post');
 
 mongoose.connect('mongodb://localhost:27017/jokestorm-live-dev', {
 });
@@ -12,14 +12,14 @@ db.once('open', () => {
 });
 
 const seedDB = async () => {
-    await Meme.deleteMany({});
+    await Post.deleteMany({});
     for (let i = 0; i < 10; i++) {
-        const meme = new Meme({
+        const post = new Post({
             author: '63b3b34e4bfedb97e73fc36a',
-            title: `${memes[i].title}`,
-            description: `${memes[i].description}`
+            title: `${posts[i].title}`,
+            description: `${posts[i].description}`
         })
-        await meme.save();
+        await post.save();
     }
 }
 

@@ -9,7 +9,7 @@ const passport = require('passport');
 const passportLocal = require('passport-local');
 
 const ExpressError = require('./utils/ExpressError');
-const memesRoutes = require('./routes/memes');
+const postsRoutes = require('./routes/posts');
 const reviewsRoutes = require('./routes/reviews');
 const usersRoutes = require('./routes/users');
 const User = require('./models/user');
@@ -60,10 +60,10 @@ app.use((req, res, next) => {
     next();
 })
 
-app.use('/memes', memesRoutes);
+app.use('/posts', postsRoutes);
 app.use('/', usersRoutes);
 // Since we want this ID, we need to use {mergeParams: true} in the router
-app.use('/memes/:id/reviews', reviewsRoutes);
+app.use('/posts/:id/reviews', reviewsRoutes);
 
 // Index route
 app.get('/', (req, res) => {
