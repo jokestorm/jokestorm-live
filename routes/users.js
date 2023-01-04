@@ -15,7 +15,6 @@ router.post('/signup', catchAsync(async (req, res) => {
         const { email, username, password } = req.body;
         const user = new User({ email, username });
         const registeredUser = await User.register(user, password);
-        console.log(registeredUser);
         req.login(registeredUser, err => {
             if (err) return next(err);
             req.flash('success', 'Great Job Signing Up!');

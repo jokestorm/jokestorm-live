@@ -39,7 +39,6 @@ router.get('/new', isLoggedIn, (req, res) => {
 router.get('/:id', catchAsync(async (req, res) => {
     // Populate reviews because we are only storing an ID
     const post = await Post.findById(req.params.id).populate('reviews').populate('author');
-    console.log(post);
     if (!post) {
         req.flash('error', 'Unable to find post');
         return res.redirect('/posts');
