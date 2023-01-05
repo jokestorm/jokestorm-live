@@ -12,12 +12,14 @@
       <ul class="list-group list-group-flush">
         <li class="list-group-item text-muted">Submitted by <%= post.author.username %></li>
       </ul>
+      <% if( currentUser && post.author.equals(currentUser._id)) { %> 
       <div class="card-body">
         <a href="/posts/<%= post._id %>/edit" class="card-link btn btn-info">Edit</a>
         <form class="d-inline" action="/posts/<%= post._id %>?_method=DELETE" method="post">
           <button class="btn btn-danger ">Delete</button>
         </form>
       </div>
+      <% } %> 
       <div class="card-footer">
         <a href="/posts">Back to Posts</a>
       </div>
