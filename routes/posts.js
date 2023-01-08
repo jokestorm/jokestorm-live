@@ -1,22 +1,11 @@
 const express = require('express');
 const catchAsync = require('../utils/catchAsync');
-const ExpressError = require('../utils/ExpressError');
-const { postSchema } = require('../schemas');
-const { isLoggedIn } = require('../middleware');
+const { isLoggedIn, validatePost, isAuthor} = require('../middleware');
 const Post = require('../models/post');
 
 const router = express.Router();
 
-// Middleware to validate using a JOI schema
-const validatePost = (req, res, next) => {
-    const { error } = postSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(el => el.message).join(',');
-        throw new ExpressError(msg, 400);
-    } else {
-        next();
-    }
-}
+
 
 router.get('/', catchAsync(async (req, res) => {
     const posts = await Post.find({});
@@ -46,7 +35,7 @@ router.get('/:id', catchAsync(async (req, res) => {
     res.render('posts/show', { post });
 }));
 
-router.put('/:id', isLoggedIn, validatePost, catchAsync(async (req, res) => {
+router.put('/:id', isLoggedIn, isAuthor, validatePost, catchAsync(async (req, res) => {
     const { id } = req.params;
     const post = await Post.findByIdAndUpdate(id, { ...req.body.post });
     req.flash('success', 'Successfully updated.');
@@ -54,15 +43,16 @@ router.put('/:id', isLoggedIn, validatePost, catchAsync(async (req, res) => {
 }));
 
 // Delete a post by id, DELETE to /posts/:id
-router.delete('/:id', isLoggedIn, catchAsync(async (req, res) => {
+router.delete('/:id', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
     const { id } = req.params;
     await Post.findByIdAndDelete(id);
     req.flash('success', 'Successfully deleted post.');
     res.redirect('/posts');
 }));
 
-router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
-    const post = await Post.findById(req.params.id);
+router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
+    const {id} = req.params;
+    const post = await Post.findById(id);
     if (!post) {
         req.flash('error', 'Unable to find post');
         return res.redirect('/posts');
