@@ -1,6 +1,7 @@
 const { postSchema, reviewSchema } = require('./schemas');
 const ExpressError = require('./utils/ExpressError');
 const Post = require('./models/post');
+const Review = require('./models/review');
 
 module.exports.isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
@@ -41,4 +42,14 @@ module.exports.validateReview = (req, res, next) => {
     } else {
         next();
     }
+}
+
+module.exports.isReviewAuthor = async( req, res, next) => {
+    const { id, reviewId } = req.params;
+    const review = await Review.findById(reviewId);
+    if (!review.author.equals(req.user._id)) {
+        req.flash('error', 'Insufficient permissions');
+        return res.redirect(`/posts/${id}`);
+    }
+    next();
 }
