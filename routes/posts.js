@@ -1,6 +1,6 @@
 const express = require('express');
 const catchAsync = require('../utils/catchAsync');
-const { isLoggedIn, validatePost, isAuthor} = require('../middleware');
+const { isLoggedIn, validatePost, isAuthor } = require('../middleware');
 const Post = require('../models/post');
 
 const router = express.Router();
@@ -27,7 +27,10 @@ router.get('/new', isLoggedIn, (req, res) => {
 
 router.get('/:id', catchAsync(async (req, res) => {
     // Populate reviews because we are only storing an ID
-    const post = await Post.findById(req.params.id).populate('reviews').populate('author');
+    const post = await Post.findById(req.params.id).populate({
+        path: 'reviews',
+        populate: 'author'
+    }).populate('author');
     if (!post) {
         req.flash('error', 'Unable to find post');
         return res.redirect('/posts');
@@ -51,7 +54,7 @@ router.delete('/:id', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
 }));
 
 router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
-    const {id} = req.params;
+    const { id } = req.params;
     const post = await Post.findById(id);
     if (!post) {
         req.flash('error', 'Unable to find post');

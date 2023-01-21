@@ -49,12 +49,17 @@
         <h2 class="card-title">
           Rating: <%= review.rating %>
         </h2>
+        <h3 class="card-subtitle text-muted">
+          Author: <%= review.author.username %>
+        </h3>
         <p class="card-text">
           Review: <%= review.body %>
         </p>
+      <% if( currentUser && review.author.equals(currentUser._id)) { %> 
         <form action="/posts/<%= post._id %>/reviews/<%= review._id %>?_method=DELETE" method="post">
           <button class="btn btn-danger">Delete</button>
         </form>
+      <% } %> 
       </div>
     </div>
     <% } %>
