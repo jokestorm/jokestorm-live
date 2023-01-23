@@ -2,15 +2,12 @@ const express = require('express');
 const catchAsync = require('../utils/catchAsync');
 const { isLoggedIn, validatePost, isAuthor } = require('../middleware');
 const Post = require('../models/post');
+const posts = require('../controllers/posts')
 
 const router = express.Router();
 
 
-
-router.get('/', catchAsync(async (req, res) => {
-    const posts = await Post.find({});
-    res.render('posts/index', { posts });
-}));
+router.get('/', catchAsync(posts.index));
 
 // New post route, POST to /posts
 router.post('/', isLoggedIn, validatePost, catchAsync(async (req, res, next) => {
