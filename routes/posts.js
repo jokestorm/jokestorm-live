@@ -9,55 +9,16 @@ const router = express.Router();
 
 router.get('/', catchAsync(posts.index));
 
-// New post route, POST to /posts
-router.post('/', isLoggedIn, validatePost, catchAsync(async (req, res, next) => {
-    const post = new Post(req.body.post);
-    post.author = req.user._id;
-    await post.save();
-    req.flash('success', 'Successfully submitted a new post!');
-    res.redirect(`/posts/${post._id}`);
-}));
+router.get('/new', isLoggedIn, posts.renderNewForm);
 
-router.get('/new', isLoggedIn, (req, res) => {
-    res.render('posts/new');
-});
+router.post('/', isLoggedIn, validatePost, catchAsync(posts.createPost));
 
-router.get('/:id', catchAsync(async (req, res) => {
-    // Populate reviews because we are only storing an ID
-    const post = await Post.findById(req.params.id).populate({
-        path: 'reviews',
-        populate: 'author'
-    }).populate('author');
-    if (!post) {
-        req.flash('error', 'Unable to find post');
-        return res.redirect('/posts');
-    }
-    res.render('posts/show', { post });
-}));
+router.get('/:id', catchAsync(posts.showPost));
 
-router.put('/:id', isLoggedIn, isAuthor, validatePost, catchAsync(async (req, res) => {
-    const { id } = req.params;
-    const post = await Post.findByIdAndUpdate(id, { ...req.body.post });
-    req.flash('success', 'Successfully updated.');
-    res.redirect(`/posts/${post._id}`);
-}));
+router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(posts.renderEditForm));
 
-// Delete a post by id, DELETE to /posts/:id
-router.delete('/:id', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
-    const { id } = req.params;
-    await Post.findByIdAndDelete(id);
-    req.flash('success', 'Successfully deleted post.');
-    res.redirect('/posts');
-}));
+router.put('/:id', isLoggedIn, isAuthor, validatePost, catchAsync(posts.editPost));
 
-router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
-    const { id } = req.params;
-    const post = await Post.findById(id);
-    if (!post) {
-        req.flash('error', 'Unable to find post');
-        return res.redirect('/posts');
-    }
-    res.render('posts/edit', { post });
-}));
+router.delete('/:id', isLoggedIn, isAuthor, catchAsync(posts.deletePost));
 
 module.exports = router;
