@@ -6,19 +6,17 @@ const posts = require('../controllers/posts')
 
 const router = express.Router();
 
-
-router.get('/', catchAsync(posts.index));
+router.route('/')
+    .get(catchAsync(posts.index))
+    .post(isLoggedIn, validatePost, catchAsync(posts.createPost))
 
 router.get('/new', isLoggedIn, posts.renderNewForm);
 
-router.post('/', isLoggedIn, validatePost, catchAsync(posts.createPost));
-
-router.get('/:id', catchAsync(posts.showPost));
+router.route('/:id')
+    .get(catchAsync(posts.showPost))
+    .put(isLoggedIn, isAuthor, validatePost, catchAsync(posts.editPost))
+    .delete(isLoggedIn, isAuthor, catchAsync(posts.deletePost))
 
 router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(posts.renderEditForm));
-
-router.put('/:id', isLoggedIn, isAuthor, validatePost, catchAsync(posts.editPost));
-
-router.delete('/:id', isLoggedIn, isAuthor, catchAsync(posts.deletePost));
 
 module.exports = router;

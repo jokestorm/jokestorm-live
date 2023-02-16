@@ -1,52 +1,17 @@
 const express = require('express');
 const passport = require('passport');
 const catchAsync = require('../utils/catchAsync');
-const User = require('../models/user');
-
+const users = require('../controllers/users');
 const router = express.Router();
 
-router.get('/signup', (req, res) => {
-    res.render('users/signup');
-});
+router.route('/signup')
+    .get(users.renderSignup)
+    .post(catchAsync(users.signup))
 
-router.post('/signup', catchAsync(async (req, res) => {
+router.route('/login')
+    .get(users.renderLogin)
+    .post(passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), users.login)
 
-    try {
-        const { email, username, password } = req.body;
-        const user = new User({ email, username });
-        const registeredUser = await User.register(user, password);
-        req.login(registeredUser, err => {
-            if (err) return next(err);
-            req.flash('success', 'Great Job Signing Up!');
-            res.redirect('/posts');
-        });
-    } catch (error) {
-        req.flash('error', error.message);
-        res.redirect('/signup')
-    }
-}));
-
-router.get('/login', (req, res) => {
-    res.render('users/login');
-});
-
-router.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req, res) => {
-    req.flash('success', 'Welcome');
-    // This logic below does not work. The session changes when user is logged in, so the returnTo property is undefined
-    // TODO: update the logic to pass the path through the redirect with a query string.
-    const redirectUrl = req.session.returnTo || '/posts';
-    delete req.session.returnTo;
-    res.redirect(redirectUrl);
-});
-
-router.get('/logout', (req, res, next) => {
-    req.logout(function (err) {
-        if (err) {
-            return next(err);
-        }
-        req.flash('success', 'Successfully Logged Out');
-        res.redirect('/posts');
-    });
-});
+router.get('/logout', users.logout);
 
 module.exports = router;
