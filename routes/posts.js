@@ -2,9 +2,10 @@ const express = require('express');
 const catchAsync = require('../utils/catchAsync');
 const { isLoggedIn, validatePost, isAuthor } = require('../middleware');
 const Post = require('../models/post');
-const posts = require('../controllers/posts')
-const multer  = require('multer')
-const upload = multer({ dest: 'uploads/' })
+const posts = require('../controllers/posts');
+const multer  = require('multer');
+const { storage } = require('../cloudinary');
+const upload = multer({ storage })
 const router = express.Router();
 
 router.route('/')
