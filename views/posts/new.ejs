@@ -2,7 +2,7 @@
 <div class="row">
   <h1 class="text-center">New Post</h1>
   <div class="col-6 offset-3">
-    <form action="/posts" method="post" novalidate class="validated-form">
+    <form action="/posts" method="post" novalidate class="validated-form" enctype="multipart/form-data">
       <div class="mb-3">
         <!-- <label for="title">Title</label> -->
         <input type="text" class="form-control" name="post[title]" id="title" placeholder="Title" required>
@@ -10,6 +10,7 @@
           Nice.
         </div>
       </div>
+      <input type="file" name="image" id="" multiple>
       <div class="mb-3">
         <!-- <label for="description">Description</label> -->
         <textarea class="form-control" name="post[description]" id="description" placeholder="Description" required></textarea>
