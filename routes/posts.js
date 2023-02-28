@@ -10,11 +10,7 @@ const router = express.Router();
 
 router.route('/')
     .get(catchAsync(posts.index))
-    // .post(isLoggedIn, validatePost, catchAsync(posts.createPost))
-    .post(upload.array('image'), (req, res ) => {
-        console.log(req.body, req.files);
-        res.send('it worked')
-    })
+    .post(isLoggedIn, upload.array('image'), validatePost, catchAsync(posts.createPost))
 
 router.get('/new', isLoggedIn, posts.renderNewForm);
 

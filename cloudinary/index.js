@@ -9,8 +9,10 @@ cloudinary.config({
 
 const storage = new CloudinaryStorage({
     cloudinary,
-    folder: 'jokestorm_live',
-    allowedFormats: ['jpeg', 'png', 'jpg']
+    params: {
+        folder: 'jokestorm_live',
+        allowedFormats: ['jpeg', 'png', 'jpg']
+    }
 });
 
 module.exports = {

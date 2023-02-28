@@ -12,6 +12,7 @@ module.exports.renderNewForm = (req, res) => {
 module.exports.createPost = async (req, res, next) => {
     const post = new Post(req.body.post);
     post.author = req.user._id;
+    post.images = req.files.map(f => ({ url: f.path, filename: f.filename}));
     await post.save();
     req.flash('success', 'Successfully submitted a new post!');
     res.redirect(`/posts/${post._id}`);
