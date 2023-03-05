@@ -16,6 +16,7 @@ const seedDB = async () => {
     for (let i = 0; i < 10; i++) {
         const post = new Post({
             author: '63b3b34e4bfedb97e73fc36a',
+            images: [],
             title: `${posts[i].title}`,
             description: `${posts[i].description}`
         })
