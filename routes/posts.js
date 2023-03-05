@@ -16,7 +16,7 @@ router.get('/new', isLoggedIn, posts.renderNewForm);
 
 router.route('/:id')
     .get(catchAsync(posts.showPost))
-    .put(isLoggedIn, isAuthor, validatePost, catchAsync(posts.editPost))
+    .put(isLoggedIn, isAuthor, upload.array('image'), validatePost, catchAsync(posts.editPost))
     .delete(isLoggedIn, isAuthor, catchAsync(posts.deletePost))
 
 router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(posts.renderEditForm));
