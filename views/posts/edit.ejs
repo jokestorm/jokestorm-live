@@ -22,6 +22,15 @@
         </div>
       </div>
       <div class="mb-3">
+        <% post.images.forEach(function(img, i) { %>
+          <img src="<%= img.url %>" class="img-thumbnail" alt="">
+          <div class="form-check-inline">
+            <input type="checkbox" name="deleteImages[]" value="<%= img.filename %>" id="image-<%= i %>">
+          </div>
+          <label for="image-<%= i %>">Delete?</label>
+        <% }) %>
+      </div>
+      <div class="mb-3">
         <button type="submit" class="btn btn-info">Save Changes</button>
       </div>
     </form>

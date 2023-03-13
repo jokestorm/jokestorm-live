@@ -51,6 +51,7 @@ module.exports.deletePost = async (req, res) => {
 
 module.exports.editPost = async (req, res) => {
     const { id } = req.params;
+    console.log(req.body)
     const post = await Post.findByIdAndUpdate(id, { ...req.body.post });
     const imgs =req.files.map(f => ({ url: f.path, filename: f.filename}));
     post.images.push(...imgs);
