@@ -19,6 +19,7 @@ const usersRoutes = require('./routes/users');
 const User = require('./models/user');
 
 // Link to database
+mongoose.set('strictQuery', true);
 mongoose.connect('mongodb://localhost:27017/jokestorm-live-dev', {
 });
 const db = mongoose.connection;
@@ -83,9 +84,10 @@ app.get('/tanks', (req, res) => {
 });
 
 // 404 Responder
+// TODO: Maybe we need to update to app.all(/(.*)/, (req, res, next) => {
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404));
-})
+});
 
 // Error handler
 app.use((err, req, res, next) => {

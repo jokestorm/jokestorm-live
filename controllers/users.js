@@ -27,10 +27,7 @@ module.exports.renderLogin = (req, res) => {
 
 module.exports.login = (req, res) => {
     req.flash('success', 'Welcome');
-    // This logic below does not work. The session changes when user is logged in, so the returnTo property is undefined
-    // TODO: update the logic to pass the path through the redirect with a query string.
-    const redirectUrl = req.session.returnTo || '/posts';
-    delete req.session.returnTo;
+    const redirectUrl = res.locals.returnTo || '/posts';
     res.redirect(redirectUrl);
 }
 

@@ -3,6 +3,7 @@ const passport = require('passport');
 const catchAsync = require('../utils/catchAsync');
 const users = require('../controllers/users');
 const router = express.Router();
+const { storeReturnTo } = require('../middleware');
 
 router.route('/signup')
     .get(users.renderSignup)
@@ -10,7 +11,7 @@ router.route('/signup')
 
 router.route('/login')
     .get(users.renderLogin)
-    .post(passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), users.login)
+    .post(storeReturnTo, passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), users.login)
 
 router.get('/logout', users.logout);
 
